@@ -1,0 +1,149 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "toc_visible": true,
+      "authorship_tag": "ABX9TyMKMm3Q8DwX6bquCJGGYvXE",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/pepe1999xddd/semana13/blob/main/mediana\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "PqAX-4auusCr"
+      },
+      "outputs": [],
+      "source": [
+        "  from pyspark.sql import SparkSession"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pyspark.sql.functions import col, expr, mean, corr"
+      ],
+      "metadata": {
+        "id": "XWP_JI0svTfC"
+      },
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "spark = SparkSession.builder.appName(\"Estadística\").getOrCreate()"
+      ],
+      "metadata": {
+        "id": "K1EC1ccUvW9h"
+      },
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "data = [(\"Juan\", 18), (\"Carlos\", 18), (\"Esteban\",30 ), (\"Gianella\", 19), (\"Xiomara\", 31), (\"Nicole\", 12), (\"Fabiana\", 25), (\"Tatiana\", 28), (\"Julio\", 29)]\n",
+        "columns = [\"Nombre\", \"Dia de cumpleaños\"]\n",
+        "\n",
+        "\n",
+        "variable = spark.createDataFrame(data, columns)\n"
+      ],
+      "metadata": {
+        "id": "DLcyS2SUxf3S"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "variable.show()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3ZeRuehzysN6",
+        "outputId": "54f4895d-8d9a-483e-f0b5-903876012f30"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "+--------+-----------------+\n",
+            "|  Nombre|Dia de cumpleaños|\n",
+            "+--------+-----------------+\n",
+            "|    Juan|               18|\n",
+            "|  Carlos|               18|\n",
+            "| Esteban|               30|\n",
+            "|Gianella|               19|\n",
+            "| Xiomara|               31|\n",
+            "|  Nicole|               12|\n",
+            "| Fabiana|               25|\n",
+            "| Tatiana|               28|\n",
+            "|   Julio|               29|\n",
+            "+--------+-----------------+\n",
+            "\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "var_mediana = variable.approxQuantile(\"Dia de cumpleaños\",[0.5],0.0)"
+      ],
+      "metadata": {
+        "id": "xpxWJz80yhIi"
+      },
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(\"la mediana es :\",var_mediana)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OJmuVIt-yj7R",
+        "outputId": "2eb6143b-4ca2-4b2e-94e4-9055c0bff888"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "la mediana es : [25.0]\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
