@@ -1,0 +1,101 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNkbpnxcZH9DrXXCl/06Xqm",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/pepe1999xddd/semana13/blob/main/moda\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "g__hU5llyz7h"
+      },
+      "outputs": [],
+      "source": [
+        "  from pyspark.sql import SparkSession"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pyspark.sql.functions import col, expr, mean, corr"
+      ],
+      "metadata": {
+        "id": "5BDxWKd6y1Bi"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "spark = SparkSession.builder.appName(\"Estadística\").getOrCreate()"
+      ],
+      "metadata": {
+        "id": "mTSyFULNy4Dh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "data = [(\"Juan\", 18), (\"Carlos\", 18), (\"Esteban\",30 ), (\"Gianella\", 19), (\"Xiomara\", 31), (\"Nicole\", 12), (\"Fabiana\", 25), (\"Tatiana\", 28), (\"Julio\", 29)]\n",
+        "columns = [\"Nombre\", \"Edad\"]\n",
+        "\n",
+        "\n",
+        "variable = spark.createDataFrame(data, columns)"
+      ],
+      "metadata": {
+        "id": "ypj7hr2py5pw"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "variable.show()"
+      ],
+      "metadata": {
+        "id": "3ytszz_Ey7Fx"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "var_moda = variable.groupBy(\"Edad\").count().orderBy(col(\"count\").desc()).first()\n",
+        "print(\"la moda es :\",var_moda[\"Edad\"])"
+      ],
+      "metadata": {
+        "id": "SEFPOzEzy-LB"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
